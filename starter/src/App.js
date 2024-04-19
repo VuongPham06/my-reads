@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Route, useNavigate } from "react-router-dom"
 import "./App.css";
 import { useEffect, useState } from "react";
 import SearchBooks from "./components/SearchBooks";
@@ -15,24 +16,27 @@ const App = () => {
   }, []);
 
   return (
-    <div className="app">
-      {showSearchPage ? (
-        <SearchBooks
-          books={books}
-          setBooks={setBooks}
-          showSearchPage={showSearchPage}
-          setShowSearchPage={setShowSearchPage}
-        />
-      ) : (
-        <ListBooks
-          books={books}
-          setBooks={setBooks}
-          showSearchPage={showSearchPage}
-          setShowSearchPage={setShowSearchPage}
-        />
-      )}
-    </div>
-  );
+    <Router>
+      <div className="app">
+        <Route
+          exact path="/"
+          element={<ListBooks
+            books={books}
+            setBooks={setBooks}
+            showSearchPage={showSearchPage}
+            setShowSearchPage={setShowSearchPage}
+          />} />
+        <Route
+          path="/search"
+          element={<SearchBooks
+            books={books}
+            setBooks={setBooks}
+            showSearchPage={showSearchPage}
+            setShowSearchPage={setShowSearchPage}
+          />} />
+      </div>
+    </Router>
+  )
 };
 
 export default App;

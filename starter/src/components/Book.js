@@ -52,11 +52,7 @@ const Book = (props) => {
       <div className="book-title">{title}</div>
       <div className="book-authors">
         {
-          authors &&
-          authors.map((author, index) => (
-            index === 0 ? `${author}` : `, ${author}`
-          ))
-
+          authors && authors.join(', ')
         }
       </div>
     </div>

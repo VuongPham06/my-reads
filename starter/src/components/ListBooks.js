@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { bookShelves } from "../constants/book-shelves";
 import BookShelf from "./BookShelf";
 
@@ -25,7 +26,16 @@ const ListBooks = (props) => {
         </div>
       </div>
       <div className="open-search">
-        <span onClick={() => setShowSearchPage(!showSearchPage)}>Add a book</span>
+        <Link to={{
+          pathname: "/search",
+          state: {
+            books: books,
+            setBooks: setBooks,
+            showSearchPage: !{ showSearchPage },
+            setShowSearchPage: { setShowSearchPage }
+          }
+        }}>Add a book</Link>
+        {/* <span onClick={() => setShowSearchPage(!showSearchPage)}>Add a book</span> */}
       </div>
     </div>
   )
