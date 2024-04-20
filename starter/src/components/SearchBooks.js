@@ -4,7 +4,6 @@ import * as BooksAPI from "../BooksAPI";
 import Book from "./Book";
 
 const SearchBooks = () => {
-  // const { books, setBooks } = props;
   const [searchInput, setSearchInput] = useState("");
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [books, setBooks] = useState([]);
@@ -27,9 +26,6 @@ const SearchBooks = () => {
         return;
       }
       setSearchedBooks(setShelvesForSearchedBooks(searchedBooks, books));
-      // BooksAPI.getAll().then(books => {
-      //   setBooks(books);
-      // });
     })
   }, [searchInput, books, setBooks, setSearchedBooks]);
 

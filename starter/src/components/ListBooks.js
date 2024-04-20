@@ -24,7 +24,6 @@ const ListBooks = () => {
             <BookShelf
               key={shelf.id}
               booksOfShelf={books.filter(book => {
-                console.log(book)
                 return book.shelf === shelf.id;
               })}
               setBooks={setBooks}
