@@ -1,11 +1,19 @@
+import { Link } from "react-router-dom"
 import { useEffect, useState } from "react";
 import * as BooksAPI from "../BooksAPI";
 import Book from "./Book";
 
-const SearchBooks = (props) => {
-  const { books, setBooks, showSearchPage, setShowSearchPage } = props;
+const SearchBooks = () => {
+  // const { books, setBooks } = props;
   const [searchInput, setSearchInput] = useState("");
   const [searchedBooks, setSearchedBooks] = useState([]);
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    BooksAPI.getAll().then(books => {
+      setBooks(books);
+    });
+  }, []);
 
   useEffect(() => {
     if (searchInput.length === 0) {
@@ -18,39 +26,28 @@ const SearchBooks = (props) => {
         setSearchedBooks([]);
         return;
       }
-
       setSearchedBooks(setShelvesForSearchedBooks(searchedBooks, books));
+      // BooksAPI.getAll().then(books => {
+      //   setBooks(books);
+      // });
     })
-  }, [searchInput, books, setSearchedBooks]);
+  }, [searchInput, books, setBooks, setSearchedBooks]);
 
   const setShelvesForSearchedBooks = (searchedBooks, books) => {
     return searchedBooks.map(searchedBook => {
-      books.map(book => {
-        if (book.id === searchedBook.id) {
-          return { ...searchedBook, shelf: books.shelf };
-        }
-
+      const foundBook = books.find(book => book.id === searchedBook.id);
+      if (foundBook) {
+        return { ...searchedBook, shelf: foundBook.shelf };
+      } else {
         return { ...searchedBook, shelf: "none" };
-      });
-
-      return { ...searchedBook, shelf: "none" };
+      }
     });
   };
 
   return (
     <div className="search-books">
       <div className="search-books-bar">
-        <span
-          className="close-search"
-          onClick={() => {
-            BooksAPI.getAll().then(books => {
-              setBooks(books);
-            })
-            setShowSearchPage(!showSearchPage);
-          }}
-        >
-          Close
-        </span>
+        <Link className="close-search" to="/">Close</Link>
         <div className="search-books-input-wrapper">
           <input
             type="text"
@@ -70,9 +67,9 @@ const SearchBooks = (props) => {
                   setBooks={setSearchedBooks}
                   title={book.title}
                   authors={book.authors}
-                  backgroundImageUrl={book.imageLinks.smallThumbnail}
+                  backgroundImageUrl={book.imageLinks?.smallThumbnail ?? "https://i.imgur.com/QxxDuUY.png"}
                   bookShelf={book.shelf}
-                  showSearchPage={showSearchPage}
+                  showSearchPage={true}
                 />
               </li>
             ))

@@ -1,7 +1,7 @@
 import Book from "./Book"
 
 const BookShelf = (props) => {
-  const { booksOfShelf, setBooks, shelfName, showSearchPage } = props
+  const { booksOfShelf, setBooks, shelfName } = props;
 
   return (
     <div className="bookshelf">
@@ -9,16 +9,16 @@ const BookShelf = (props) => {
       <div className="bookshelf-books">
         <ol className="books-grid">
           {
-            booksOfShelf && booksOfShelf.map((book, index) => (
-              <li key={index}>
+            booksOfShelf && booksOfShelf.map((book) => (
+              <li key={book.id}>
                 <Book
                   book={book}
                   setBooks={setBooks}
                   title={book.title}
                   authors={book.authors}
-                  backgroundImageUrl={book.imageLinks.smallThumbnail}
+                  backgroundImageUrl={book.imageLinks?.smallThumbnail ?? "https://i.imgur.com/QxxDuUY.png"}
                   bookShelf={book.shelf}
-                  showSearchPage={showSearchPage}
+                  showSearchPage={false}
                 />
               </li>
             ))

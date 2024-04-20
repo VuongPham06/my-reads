@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom"
+import { useEffect, useState } from "react";
 import { bookShelves } from "../constants/book-shelves";
 import BookShelf from "./BookShelf";
+import * as BooksAPI from "../BooksAPI"
 
-const ListBooks = (props) => {
-  const { books, setBooks, showSearchPage, setShowSearchPage } = props;
+const ListBooks = () => {
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    BooksAPI.getAll().then(books => {
+      setBooks(books);
+    });
+  }, []);
 
   return (
     <div className="list-books">
@@ -16,9 +24,9 @@ const ListBooks = (props) => {
             <BookShelf
               key={shelf.id}
               booksOfShelf={books.filter(book => {
+                console.log(book)
                 return book.shelf === shelf.id;
               })}
-              showSearchPage={showSearchPage}
               setBooks={setBooks}
               shelfName={shelf.name}
             />
@@ -26,18 +34,9 @@ const ListBooks = (props) => {
         </div>
       </div>
       <div className="open-search">
-        <Link to={{
-          pathname: "/search",
-          state: {
-            books: books,
-            setBooks: setBooks,
-            showSearchPage: !{ showSearchPage },
-            setShowSearchPage: { setShowSearchPage }
-          }
-        }}>Add a book</Link>
-        {/* <span onClick={() => setShowSearchPage(!showSearchPage)}>Add a book</span> */}
+        <Link to="/search">Add a book</Link>
       </div>
-    </div>
+    </div >
   )
 };
 
